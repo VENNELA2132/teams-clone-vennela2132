@@ -106,10 +106,11 @@ const addVideoStream = (videoEl, stream) => {
   videoEl.srcObject = stream;
   videoEl.addEventListener("loadedmetadata", () => {
     videoEl.play();
+    videoGrid.append(videoEl);
   });
   myVideoStream.getVideoTracks()[0].enabled=false;
   myVideoStream.getAudioTracks()[0].enabled=false;
-  videoGrid.append(videoEl);
+  
   let totalUsers = document.getElementsByTagName("video").length;
   if (totalUsers > 1) {
     for (let index = 0; index < totalUsers; index++) {
