@@ -39,7 +39,7 @@ navigator.mediaDevices
 
     socket.on("user-connected", (userId,userName) => {
       connectToNewUser(userId, stream);
-      popUp(userName,"connect");
+      popIt(userName,"connect");
     });
 
     document.addEventListener("keydown", (e) => {
@@ -63,7 +63,7 @@ navigator.mediaDevices
     });
   });
   socket.on("user-disconnected",(userId,userName)=>{
-      popUp(userName,"disconnect");
+      popIt(userName,"disconnect");
       if(peers[userId])peers[userId].close();
   })
 
@@ -216,7 +216,7 @@ document.getElementById("leave-meeting").onclick=function(){
     setUnmuteButton();
 }
 
-function popUp(name,str){
+function popIt(name,str){
   if(str=="disconnect")
   {
     document.getElementById("pop-up").innerText=name+" disconnected";
