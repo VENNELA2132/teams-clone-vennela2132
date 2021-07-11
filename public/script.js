@@ -1,7 +1,7 @@
 const socket = io("/");
 const chatInputBox = document.getElementById("chat-message");
 const all_messages = document.getElementById("all-messages");
-const main__chat__window = document.getElementById("main-chat-window");
+const mainChatWindow = document.getElementById("main-chat-window");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -59,7 +59,7 @@ navigator.mediaDevices
       li.innerHTML=`<div><b>${userName === user? "Me:" : userName+":"}</b><hr>${msg}<small id="sml">${time}</small></div>`;
       
       all_messages.append(li);
-      main__chat__window.scrollTop = main__chat__window.scrollHeight;
+      mainChatWindow.scrollTop = mainChatWindow.scrollHeight;
     });
   });
   socket.on("user-disconnected",(userId,userName)=>{
@@ -181,7 +181,7 @@ function getLink(){
    document.getElementById("roomlnk").style.display="block";
 }
 
-function CloseIt(){
+function closeIt(){
     var modal=document.getElementById("Modal");
     modal.style.display="none";
 }
