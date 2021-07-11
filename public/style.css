@@ -271,3 +271,18 @@ cursor: pointer;
   color:black;
 }
 
+#pop-up{
+  display:none;
+   position: fixed;
+   z-index: 5;
+   padding-top: 100px;
+   max-width:500px;
+   margin:auto;
+   padding:10px;
+   bottom:150px;
+   overflow: auto; 
+   background-color:#4f9b48;
+   border:2px solid black;
+   border-radius: 5px; 
+   
+ }

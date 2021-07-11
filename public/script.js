@@ -37,8 +37,9 @@ navigator.mediaDevices
       });
     });
 
-    socket.on("user-connected", (userId) => {
+    socket.on("user-connected", (userId,userName) => {
       connectToNewUser(userId, stream);
+      popUp(userName,"connect");
     });
 
     document.addEventListener("keydown", (e) => {
@@ -61,7 +62,8 @@ navigator.mediaDevices
       main__chat__window.scrollTop = main__chat__window.scrollHeight;
     });
   });
-  socket.on("user-disconnected",(userId)=>{
+  socket.on("user-disconnected",(userId,userName)=>{
+      popUp(userName,"disconnect");
       if(peers[userId])peers[userId].close();
   })
 
@@ -214,3 +216,15 @@ document.getElementById("leave-meeting").onclick=function(){
     setUnmuteButton();
 }
 
+function popUp(name,str){
+  if(str=="disconnect")
+  {
+    document.getElementById("pop-up").innerText=name+" disconnected";
+    document.getElementById("pop-up").style.display="block";
+  }
+  else{
+    document.getElementById("pop-up").innerText=name+" is connected";
+    document.getElementById("pop-up").style.display="block";
+  }
+  setTimeout(function(){document.getElementById("pop-up").style.display="none";},10000);
+}
