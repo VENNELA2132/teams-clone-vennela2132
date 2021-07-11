@@ -226,5 +226,5 @@ function popIt(name,str){
     document.getElementById("pop-up").innerText=name+" is connected";
     document.getElementById("pop-up").style.display="block";
   }
-  setTimeout(function(){document.getElementById("pop-up").style.display="none";},10000);
+  setTimeout(function(){document.getElementById("pop-up").style.display="none";},5000);
 }
