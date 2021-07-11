@@ -4,7 +4,9 @@ const all_messages = document.getElementById("all-messages");
 const mainChatWindow = document.getElementById("main-chat-window");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
+
 myVideo.muted = true;
+//PEER
 const peers={};
 var peer = new Peer(undefined, {
   path: "/peerjs",
@@ -13,13 +15,15 @@ var peer = new Peer(undefined, {
 });
 
 let myVideoStream;
-const user=prompt("Enter Your Name:"); /* */
-var getUserMedia =
+
+const user=prompt("Enter Your Name:"); /*User Name Input */
+
+var getUserMedia =                     //Get audio and video access
   navigator.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
 
-navigator.mediaDevices
+navigator.mediaDevices                      //My video stream
   .getUserMedia({
     video: true,
     audio: true,
@@ -28,7 +32,7 @@ navigator.mediaDevices
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
 
-    peer.on("call", (call) => {
+    peer.on("call", (call) => {                          //Adding other peer's video in our stream
       call.answer(stream);
       const video = document.createElement("video");
 
@@ -36,13 +40,15 @@ navigator.mediaDevices
         addVideoStream(video, userVideoStream);
       });
     });
-
-    socket.on("user-connected", (userId,userName) => {
+    
+    socket.on("user-connected", (userId,userName) => {   //user connected
       connectToNewUser(userId, stream);
       popIt(userName,"connect");
     });
 
-    document.addEventListener("keydown", (e) => {
+    //CHAT
+
+    document.addEventListener("keydown", (e) => {           //Chat Input from User
       if (e.which === 13 && chatInputBox.value != "") {
         
         socket.emit("message",chatInputBox.value);
@@ -50,7 +56,7 @@ navigator.mediaDevices
       }
     });
 
-    socket.on("createMessage", (msg,userName) => {
+    socket.on("createMessage", (msg,userName) => {         //Display message onto chatbox
       console.log(msg);
       
       const today=new Date();
@@ -61,13 +67,15 @@ navigator.mediaDevices
       all_messages.append(li);
       mainChatWindow.scrollTop = mainChatWindow.scrollHeight;
     });
+
   });
-  socket.on("user-disconnected",(userId,userName)=>{
+
+  socket.on("user-disconnected",(userId,userName)=>{    //user disconnected
       popIt(userName,"disconnect");
       if(peers[userId])peers[userId].close();
   })
 
-peer.on("call", function (call) {
+peer.on("call", function (call) {                       //Answer call
   getUserMedia(
     { video: true, audio: true },
     function (stream) {
@@ -78,18 +86,18 @@ peer.on("call", function (call) {
       });
     },
     function (err) {
-      console.log("Failed to get local stream", err);
+      console.err("Failed to get local stream");
     }
   );
 });
 
-peer.on("open", (id) => {
+peer.on("open", (id) => {                                      //unique user-id is created for every conneted peer
   socket.emit("join-room", ROOM_ID, id,user);
 });
 
-// CHAT
 
-const connectToNewUser = (userId, streams) => {
+
+const connectToNewUser = (userId, streams) => {               //Start Connection
   var call = peer.call(userId, streams);
   console.log(userId);
   var video = document.createElement("video");
@@ -104,7 +112,7 @@ const connectToNewUser = (userId, streams) => {
 
 };
 
-const addVideoStream = (videoEl, stream) => {
+const addVideoStream = (videoEl, stream) => {              //Add video stream to video grid
   videoEl.srcObject = stream;
   videoEl.addEventListener("loadedmetadata", () => {
     videoEl.play();
@@ -121,7 +129,7 @@ const addVideoStream = (videoEl, stream) => {
   
 };
 
-const playStop = () => {
+const playStop = () => {                                             //Video button
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
@@ -132,7 +140,7 @@ const playStop = () => {
   }
 };
 
-const muteUnmute = () => {
+const muteUnmute = () => {                                          //Mute button
   const enabled = myVideoStream.getAudioTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getAudioTracks()[0].enabled = false;
@@ -143,7 +151,8 @@ const muteUnmute = () => {
   }
 };
 
-const setPlayVideo = () => {
+
+const setPlayVideo = () => {                                      
   const html = `<i class="unmute fas fa-play"></i>
   <span class="unmute">Resume Video</span>`;
   document.getElementById("playPauseVideo").innerHTML = html;
@@ -166,14 +175,14 @@ const setMuteButton = () => {
   document.getElementById("muteButton").innerHTML = html;
 };
 
-function ShowChat(e){
+
+function ShowChat(e){                                             //Toggle chat
     e.classList.toggle("active");
     document.body.classList.toggle("showchat");
 }
 
 
-
-function getLink(){
+function getLink(){                                               //Invite link
     var modal=document.getElementById("Modal");
     console.log( modal.style.display)
    modal.style.display="block";
@@ -181,32 +190,28 @@ function getLink(){
    document.getElementById("roomlnk").style.display="block";
 }
 
-function closeIt(){
+function closeIt(){                                             //Close Invite link
     var modal=document.getElementById("Modal");
     modal.style.display="none";
 }
-function func(){
-  var final= document.getElementById("final");
-  final.style.display="flex";
-  final.style.flexDirection="column";
-}
-//////////////////////////
+
+
+//Before and After Video Call
 
 (document.getElementById("name").innerHTML=user)
 document.getElementById("lnk").innerHTML=window.location.href;
 
-document.getElementById("call").onclick=function(){
-  // document.getElementById("start-leave").style.visibility="hidden";
-  // document.getElementById("start-leave").style.opacity="0";
+document.getElementById("call").onclick=function(){                 //Start Video call button
+  
   document.getElementById("start-leave").style.display="none";
   document.getElementById("main-left").style.flex="1";
   document.getElementById("main-left").style.display="flex";
   document.getElementById("main-right").style.flex="0.3";
 }
 
-document.getElementById("leave-meeting").onclick=function(){
+document.getElementById("leave-meeting").onclick=function(){         //End Video call
+
   document.getElementById("start-leave").style.display="block";
- // document.getElementById("main-left").style.flex="1";
   document.getElementById("main-left").style.display="none";
   document.getElementById("main-right").style.flex="1";
 
@@ -216,7 +221,7 @@ document.getElementById("leave-meeting").onclick=function(){
     setUnmuteButton();
 }
 
-function popIt(name,str){
+function popIt(name,str){                                            //Display peers who joined or left
   if(str=="disconnect")
   {
     document.getElementById("pop-up").innerText=name+" disconnected";
