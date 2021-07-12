@@ -20,31 +20,40 @@
     </script>
   </head>
   <body class="showchat">
-    <div id="start-leave">
+    <div id="start-leave">                    <!--Initial and Final Page-->
       <div class="start-main">
           <div class="start-left">
               
                   <i id="icon" class="far fa-user-circle"></i>
               
               <h3 id="name">None</h3>
-              <div class="meet-link">Link:<span id="lnk">None</span></div>
+              <div class="meet-link">
+                Link:<span id="lnk">None</span>
+              </div>
               <div class="buttons">
               <div id="call" >Video Call</div>
-              <div id="Leave" onclick="location.href = '/end';"><div><a id="a" href="/end">Leave</a></div></div>
+              <div id="Leave" onclick="location.href = '/end';">
+                <div>
+                  <a id="a" href="/end">Leave</a>
+                </div>
+              </div>
               </div>
           </div>
           
       </div>
   </div>
-  <div id="pop-up">
+  <div id="pop-up">                        <!--Display COnnected/ disconnected peers-->
     
   </div>
-    <div id="Modal">
-      <i class="fas fa-window-close" id="link" onclick="closeIt()"></i>
-      <div class="modal-content" ><b>Link:</b><span id="roomlnk">Link</span></div>
+    <div id="Modal">                       <!--Room link (initially hidden)-->
+      <i class="fas fa-window-close" id="link" 
+      onclick="closeIt()"></i>
+      <div class="modal-content" >
+        <b>Link:</b><span id="roomlnk">Link</span>
+      </div>
   </div>
-    <div class="main">
-      <div id="main-left">
+    <div class="main">                     <!--Main page-->
+      <div id="main-left">                 <!--Videos an controls-->
         <div class="main-videos">
           <div id="video-grid"></div>
         </div>
@@ -89,7 +98,7 @@
           </div>
         </div>
       </div>
-      <div id="main-right">
+      <div id="main-right">                <!--Chat and Input message-->
         <div class="main-header">
           <i class="fas fa-circle"></i>
           <b>LIVE CHAT</b>
