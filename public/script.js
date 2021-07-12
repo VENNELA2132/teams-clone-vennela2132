@@ -233,3 +233,10 @@ function popIt(name,str){                                            //Display p
   }
   setTimeout(function(){document.getElementById("pop-up").style.display="none";},5000);
 }
+
+//Thankyou page
+
+function feedback(){
+  document.getElementById("final").style.display="flex";
+  document.getElementById("final").style.flexDirection="column";
+}
